@@ -1,6 +1,7 @@
 package no.hvl.dat110.system.controller;
 
-import no.hvl.dat110.TODO;
+import java.util.concurrent.TimeUnit;
+
 import no.hvl.dat110.rpc.RPCClient;
 import no.hvl.dat110.rpc.RPCServerStopStub;
 
@@ -23,25 +24,35 @@ public class Controller  {
 		displayclient = new RPCClient(Common.DISPLAYHOST,Common.DISPLAYPORT);
 		sensorclient = new RPCClient(Common.SENSORHOST,Common.SENSORPORT);
 		
-		// TODO
-		// connect to sensor and display RPC servers
-		// create local display and sensor objects
-		// register display and sensor objects in the RPC layer
 		
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
+		// connect to sensor and display RPC servers
+//		displayclient.connect();
+//		sensorclient.connect();
+		
+		// create local display and sensor objects
+		display = new Display();
+		sensor = new Sensor();
+		
+		// register display and sensor objects in the RPC layer
+		displayclient.register(display);
+		sensorclient.register(sensor); // må mulingens byttes om 
 		
 		// register stop methods in the RPC layer
 		displayclient.register(stopdisplay);
 		sensorclient.register(stopsensor);
 		
-		// TODO:
+		
 		// loop while reading from sensor and write to display via RPC
 		
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-			}
+		for( int i = 0; i < N; i++) {
+			display.write(Integer.toString(sensor.read()));
+			
+			try {
+		TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();}
+			
+		}
 		
 		stopdisplay.stop();
 		stopsensor.stop();

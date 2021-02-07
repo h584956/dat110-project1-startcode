@@ -29,29 +29,35 @@ public class Connection {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	//Tar en message, encaspulater den, og sender den med outStream
 	public void send(Message message) {
-
-		// TODO
-		// encapsulate the data contained in the message and write to the output stream
-		// Hint: use the encapsulate method on the message
-		throw new UnsupportedOperationException(TODO.method());
-
+		
+		byte[] encapsulated = message.encapsulate();
+		
+						try {
+			
+		outStream.write(encapsulated);
+			
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 	}
 
+	//Mottar en Message i form av encapsulated, opprettet en ny message med en decapsulated byte[]. 
 	public Message receive() {
 
-		Message message;
-		byte[] recvbuf;
-
-		// TODO
-		// read a segment (128 bytes) from the input stream and decapsulate into message
-		// Hint: create a new Message object and use the decapsulate method
+		Message message = new Message();
+		byte[] recvbuf = new byte[MessageConfig.SEGMENTSIZE];		
+					
+						try {
 		
-		if (true) {
-			throw new RuntimeException("not yet implemented");
-		}
-
+		inStream.read(recvbuf, 0, recvbuf.length);
+		
+		message.decapsulate(recvbuf);	
+						
+						} catch (IOException e) {
+							e.printStackTrace();}
 		return message;
 
 	}

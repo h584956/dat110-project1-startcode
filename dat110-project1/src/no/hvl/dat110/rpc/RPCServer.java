@@ -13,7 +13,6 @@ public class RPCServer {
 	private Connection connection;
 	
 	// hashmap to register RPC methods which are required to implement RPCImpl
-	
 	private HashMap<Integer,RPCImpl> services;
 	
 	public RPCServer(int port) {
@@ -36,23 +35,26 @@ public class RPCServer {
 		boolean stop = false;
 		
 		while (!stop) {
-	    
-		   int rpcid;
-		   
-		   // TODO
-		   // - receive message containing RPC request
-		   // - find the identifier for the RPC methods to invoke
-		   // - lookup the method to be invoked
-		   // - invoke the method
-		   // - send back message containing RPC reply
 			
-		   if (true) {
-			   throw new UnsupportedOperationException(TODO.method());
-		   }
-		   
+			
+			Message message = connection.receive();
+			
+			byte[] rpcrequest = message.getData();
+			
+			int rpcid = rpcrequest[0];
+			
+			
+			RPCImpl id = services.get(rpcid);
+			
+			byte[] data = id.invoke(rpcrequest);
+			
+			
+			connection.send(new Message(data));
+			
 		   if (rpcid == RPCCommon.RPIDSTOP) {
 			   stop = true;
 		   }
+		   
 		}
 	
 	}

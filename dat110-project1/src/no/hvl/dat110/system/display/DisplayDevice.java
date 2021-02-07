@@ -1,9 +1,7 @@
 package no.hvl.dat110.system.display;
 
-import no.hvl.dat110.TODO;
 import no.hvl.dat110.rpc.RPCServer;
 import no.hvl.dat110.system.controller.Common;
-
 
 public class DisplayDevice {
 	
@@ -11,13 +9,15 @@ public class DisplayDevice {
 		
 		System.out.println("Display server starting ...");
 		
-		// TODO
-		// implement the operation of the display RPC server
-		// see how this is done for the sensor RPC server in SensorDevice
+		DisplayImpl display = new DisplayImpl();
 		
-		if (true) {
-			throw new UnsupportedOperationException(TODO.method());
-		}
+		RPCServer server = new RPCServer(Common.DISPLAYPORT);
+		
+		server.register(1, display);
+		
+		server.run();
+		
+		server.stop();
 		
 		System.out.println("Display server stopping ...");
 		
